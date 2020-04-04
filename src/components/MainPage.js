@@ -139,7 +139,7 @@ const MainPage = () => {
                     <Link
                       to={{
                         pathname: "/details",
-                        state: { details: movie, genre: genreList }
+                        state: { details: movie, genre: genreList, allGenres: genres }
                       }}
                     >
                       <div className="item-content">

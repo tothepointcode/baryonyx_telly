@@ -111,6 +111,15 @@ justify-content: space-between;
 
 }
 
-/* .recommendation-item {
-  
-} */
+.recommendation-item {
+  margin-bottom: 2rem;
+}
+
+.recommendation-item p, .recommendation-item h4{
+  color: var(--light);
+  padding: 0.5rem 0rem;
+}
+
+.recommendation-item:hover {
+  background-color: var(--light3);
+}

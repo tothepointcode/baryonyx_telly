@@ -17,9 +17,8 @@ import "./styles/details.css";
 
 const DetailsPage = () => {
   // const { id } = useParams();
-  const history = useHistory();
   const location = useLocation();
-  // const [movieData, setMovieData] = useState();
+  const [data, setData] = useState();
 
   const {
     poster_path,
@@ -34,12 +33,13 @@ const DetailsPage = () => {
   } = location.state.details;
 
   const { genre } = location.state;
+  const genres = location.state.allGenres;
 
   const listGenre = () => {
     const len = genre.length;
     let list = "";
     genre.forEach((item, index) => {
-      if (index < len-1) {
+      if (index < len - 1) {
         list += `${item}, `;
       } else {
         list += `${item}`;
@@ -48,42 +48,35 @@ const DetailsPage = () => {
     return list;
   };
 
-  useEffect(() => {
-    // async function fetchData(url) {
-    //   axios
-    //     .get(`${url}`)
-    //     .then(response => {
-    //       setData([...response.data.results]);
-    //     })
-    //     .catch(err => console.log(err));
-    // }
-    // async function fetchGenres() {
-    //   axios
-    //     .get(
-    //       " https://api.themoviedb.org/3/genre/movie/list?api_key=c0fa6bc64ad08cbe344d1ce681a62d69&language=en-US"
-    //     )
-    //     .then(response => {
-    //       setGenres([...response.data.genres]);
-    //     });
-    // }
-    // fetchGenres();
-    // if (category === "discover") {
-    //   fetchData(
-    //     "https://api.themoviedb.org/3/discover/movie?api_key=c0fa6bc64ad08cbe344d1ce681a62d69&language=en-US&sort_by=release_date.desc&include_adult=false&include_video=true&page=1"
-    //   );
-    // } else if (category === "popular") {
-    //   fetchData(
-    //     "https://api.themoviedb.org/3/movie/popular?api_key=c0fa6bc64ad08cbe344d1ce681a62d69&language=en-US&page=1"
-    //   );
-    // } else if (category === "tv") {
-    //   fetchData(
-    //     "https://api.themoviedb.org/3/tv/popular?api_key=c0fa6bc64ad08cbe344d1ce681a62d69&language=en-US&page=1"
-    //   );
-    // } else {
-    // }
-  });
+  const pickGenre = genre_ids => {
+    let genre;
+    let genreList = [];
+    genre_ids.forEach(id => {
+      for (genre of genres) {
+        if (genre.id === id) {
+          genreList.push(genre.name);
+        }
+      }
+    });
+    return genreList;
+  };
 
-  const renderStars = () => {
+  const fetchData = url => {
+    axios
+      .get(`${url}`)
+      .then(response => {
+        setData([...response.data.results]);
+      })
+      .catch(err => console.log(err));
+  };
+
+  useEffect(() => {
+    fetchData(
+      `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=c0fa6bc64ad08cbe344d1ce681a62d69&language=en-US&page=1`
+    );
+  }, []);
+
+  const renderStars = (vote_average) => {
     let stars = Math.round((vote_average / 10) * 5);
     let string = [];
     for (let i = 1; i <= 5; i++) {
@@ -141,7 +134,7 @@ const DetailsPage = () => {
                 <HeartFilled className="mt-1" style={{ color: "tomato" }} />
               </h2>
               <p>
-                {renderStars()}
+                {renderStars(vote_average)}
                 <span className="rating">{vote_average}</span>
               </p>
               <Row className="sub-section">
@@ -157,7 +150,6 @@ const DetailsPage = () => {
                     style={{ minWidth: "9rem" }}
                   >
                     <span>
-                      {" "}
                       <PlusOutlined
                         className="p-2"
                         style={{ verticalAlign: "middle" }}
@@ -180,27 +172,43 @@ const DetailsPage = () => {
               <h2>Movie Recommendation</h2>
             </Col>
             <Col className="recommendation-container">
-              <Row className="recommendation-item">
-                <Col sm="5">
-                  <img
-                    className="image"
-                    src=" https://via.placeholder.com/100/FF0000/FFFFFF?Text=Down.com
-
-C/O https://placeholder.com/ "
-                    alt="movie here"
-                  />
-                </Col>
-                <Col sm="7">
-                  <h3>Title here for real</h3>
-                  <p>
-                    <StarFilled className="star" />
-                    <StarFilled />
-                    <StarFilled />
-                    <StarFilled />
-                    <StarFilled />
-                  </p>
-                </Col>
-              </Row>
+              {!data && <h3>Loading ...</h3>}
+              {data &&
+                data.slice(0, 3).map((movie, index) => {
+                  let genreList = pickGenre(movie.genre_ids);
+                  return (
+                    <Link
+                      to={{
+                        pathname: "/details",
+                        state: {
+                          details: movie,
+                          genre: genreList,
+                          allGenres: genres
+                        }
+                      }}
+                    >
+                      <Row className="recommendation-item">
+                        <Col sm="5">
+                          <img
+                            className="item-image"
+                            src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                            alt="poster"
+                          />
+                        </Col>
+                        <Col sm="7">
+                          <h4>{movie.title}</h4>
+                          <p>
+                            {renderStars(movie.vote_average)}
+                            <br/>
+                            <span className="other">
+                              {movie.original_language}
+                            </span>
+                          </p>
+                        </Col>
+                      </Row>
+                    </Link>
+                  );
+                })}
             </Col>
           </Row>
         </Col>

@@ -11,7 +11,7 @@ export default function App() {
   return (
     <div className="App">
       <Switch>
-        <Route path="/details/:id">
+        <Route path="/details">
           <DetailsPage />
         </Route>
 

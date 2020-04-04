@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Container, Row, Col, Button } from "reactstrap";
 
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory, useLocation } from "react-router-dom";
 
 import {
   ArrowLeftOutlined,
@@ -17,9 +17,26 @@ import "./styles/details.css";
 
 const DetailsPage = () => {
   // const { id } = useParams();
+  const history = useHistory();
+  const location = useLocation();
   // const [movieData, setMovieData] = useState();
 
+  const {
+    poster_path,
+    id,
+    backdrop_path,
+    genre_ids,
+    title,
+    vote_average,
+    overview,
+    release_date,
+original_language
+  } = location.state.details;
+
+  const {genre} = location.state
+
   useEffect(() => {
+    console.log(location.state.title);
     // async function fetchData(url) {
     //   axios
     //     .get(`${url}`)
@@ -75,9 +92,7 @@ const DetailsPage = () => {
               <div className="image">
                 <img
                   className="image"
-                  src=" https://via.placeholder.com/100/FF0000/FFFFFF?Text=Down.com
-
-C/O https://placeholder.com/ "
+                  src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
                   alt="movie here"
                 />
               </div>
@@ -97,21 +112,22 @@ C/O https://placeholder.com/ "
 
             <Col sm="12" className="description-container">
               <h2 className="description-title">
-                Big Movie Title here
+                {title}
                 <HeartFilled className="mt-1" style={{ color: "tomato" }} />
               </h2>
               <p>
                 <StarFilled className="star" />
+                <StarFilled className="star-empty"/>
                 <StarFilled />
                 <StarFilled />
                 <StarFilled />
-                <StarFilled />
-                <span className="rating">8.6</span>
+                <span className="rating">{vote_average}</span>
               </p>
               <Row className="sub-section">
                 <Col sm="8">
-                  <p>Type: Action/Drama/Comedy</p>
-                  <p>Producer Country/Region: USA</p>
+                  <p>Type: {genre}</p>
+                  <p>Release Date: {release_date}</p>
+                  <p>Original Language: {original_language}</p>
                 </Col>
                 <Col sm="4" style={{ textAlign: "right" }}>
                   <Button
@@ -130,7 +146,7 @@ C/O https://placeholder.com/ "
                   </Button>
                 </Col>
                 <Col className="description-text">
-                  <p>kdkdkdkdkdkdk kdkdkk k kdkdkkd kdkkd</p>
+                  <p>{overview}</p>
                 </Col>
               </Row>
             </Col>

@@ -167,6 +167,7 @@
 .item-extra {
   font-size: 0.7rem;
   color: var(--light3);
+  display: none;
 }
 
 .item-extra .other {

@@ -16,53 +16,45 @@ import "./styles/main.css";
 const MainPage = () => {
   const { category } = useParams();
   const [data, setData] = useState();
-  const [genres, setGenres] = useState();
+  const [genres, setGenres] = useState([]);
+
+  const fetchData = url => {
+    axios
+      .get(`${url}`)
+      .then(response => {
+        setData([...response.data.results]);
+      })
+      .catch(err => console.log(err));
+  };
+
+  const fetchGenres = () => {
+    axios
+      .get(
+        " https://api.themoviedb.org/3/genre/movie/list?api_key=c0fa6bc64ad08cbe344d1ce681a62d69&language=en-US"
+      )
+      .then(response => {
+        setGenres([...response.data.genres]);
+      });
+  };
 
   useEffect(() => {
-    async function fetchData(url) {
-      axios
-        .get(`${url}`)
-        .then(response => {
-          setData([...response.data.results]);
-        })
-        .catch(err => console.log(err));
-    }
-
-    async function fetchGenres() {
-      axios
-        .get(
-          " https://api.themoviedb.org/3/genre/movie/list?api_key=c0fa6bc64ad08cbe344d1ce681a62d69&language=en-US"
-        )
-        .then(response => {
-          setGenres([...response.data.genres]);
-        });
-    }
-
     fetchGenres();
-
-    if (category === "discover") {
-      fetchData(
-        "https://api.themoviedb.org/3/discover/movie?api_key=c0fa6bc64ad08cbe344d1ce681a62d69&language=en-US&sort_by=release_date.desc&include_adult=false&include_video=true&page=1"
-      );
-    } else if (category === "popular") {
-      fetchData(
-        "https://api.themoviedb.org/3/movie/popular?api_key=c0fa6bc64ad08cbe344d1ce681a62d69&language=en-US&page=1"
-      );
-    } else if (category === "tv") {
-      fetchData(
-        "https://api.themoviedb.org/3/tv/popular?api_key=c0fa6bc64ad08cbe344d1ce681a62d69&language=en-US&page=1"
-      );
-    } else {
-    }
-  });
+    fetchData(
+      "https://api.themoviedb.org/3/movie/popular?api_key=c0fa6bc64ad08cbe344d1ce681a62d69&language=en-US&page=1"
+    );
+  }, []);
 
   const pickGenre = genre_ids => {
     let genre;
-    for (genre of genres) {
-      if (genre.id === genre_ids[0]) {
-        return genre.name;
+    let genreList = [];
+    genre_ids.forEach(id => {
+      for (genre of genres) {
+        if (genre.id === id) {
+          genreList.push(genre.name);
+        }
       }
-    }
+    });
+    return genreList;
   };
 
   if (category === undefined) {
@@ -79,24 +71,21 @@ const MainPage = () => {
             <NavLink to="/discover" className="category">
               DISCOVER
             </NavLink>
-            <NavLink to="/tv" className="category">
-              TV & MOVIES
-            </NavLink>
-            <NavLink to="/popular" className="category">
-              POPULAR CLIPS
-            </NavLink>
           </div>
           <h3 className="heading2">CATEGORIES</h3>
           <div className="category-list">
-            <NavLink to="/details1" className="category">
-              Comedy
-            </NavLink>
-            <NavLink to="/details2" className="category">
-              Action
-            </NavLink>
-            <NavLink to="/details" className="category">
-              Scientific
-            </NavLink>
+            {genres &&
+              genres.map((genre, index) => {
+                return (
+                  <NavLink
+                    key={index}
+                    to={`/discover/:${genre.id}`}
+                    className="category"
+                  >
+                    {genre.name}
+                  </NavLink>
+                );
+              })}
           </div>
         </Col>
 
@@ -126,15 +115,37 @@ const MainPage = () => {
             {!data && <h2>Loading ... </h2>}
             {data &&
               data.map((movie, index) => {
+                let genreList = pickGenre(movie.genre_ids);
                 return (
-                  <Col key={index} className="item" sm="4" md="3" lg="2">
-                    <Link to="/details/:id">
+                  <Col
+                    key={index}
+                    onMouseOver={e => {
+                      const doc = document.querySelectorAll(".item-extra")[
+                        index
+                      ];
+                      doc.style.display = "block";
+                    }}
+                    onMouseOut={e => {
+                      const doc = document.querySelectorAll(".item-extra")[
+                        index
+                      ];
+                      doc.style.display = "none";
+                    }}
+                    className="item"
+                    sm="4"
+                    md="3"
+                    lg="2"
+                  >
+                    <Link
+                      to={{
+                        pathname: "/details",
+                        state: { details: movie, genre: genreList }
+                      }}
+                    >
                       <div className="item-content">
                         <img
                           className="item-image"
-                          src={`https://image.tmdb.org/t/p/w500/${
-                            movie.poster_path
-                          }`}
+                          src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                           alt="poster"
                         />
                         <div className="item-details">
@@ -142,7 +153,7 @@ const MainPage = () => {
                             {movie.title || movie.name}
                           </span>
                           <p className="item-extra">
-                            <span>{`${pickGenre(movie.genre_ids)} . ${new Date(
+                            <span>{`${genreList[0]} . ${new Date(
                               movie.release_date || movie.first_air_date
                             ).getFullYear()}`}</span>
                             <br />

@@ -42,7 +42,9 @@ const MainPage = () => {
 
     if (parseInt(category) > 0) {
       setData(null);
-      return fetchData(`https://api.themoviedb.org/3/discover/movie?api_key=c0fa6bc64ad08cbe344d1ce681a62d69&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${category}`);
+      return fetchData(
+        `https://api.themoviedb.org/3/discover/movie?api_key=c0fa6bc64ad08cbe344d1ce681a62d69&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${category}`
+      );
     }
 
     fetchData(
@@ -63,15 +65,19 @@ const MainPage = () => {
     return genreList;
   };
 
-  if (category === undefined || (!parseInt(category) > 0 && category !== "discover" && category !== "details")) {
+  if (
+    category === undefined ||
+    (!parseInt(category) > 0 &&
+      category !== "discover" &&
+      category !== "details")
+  ) {
     return <Redirect to="/discover" />;
   }
-  
 
   return (
     <Container fluid className="main-page">
       <Row>
-        <Col className="side-panel" sm="4" md="3" lg="2">
+        <Col className="side-panel" xs="5" sm="4" md="3" lg="2">
           <h2 className="heading">Telly</h2>
           <h3 className="heading2">Browse Telly</h3>
           <div className="category-list">
@@ -84,11 +90,7 @@ const MainPage = () => {
             {genres &&
               genres.map((genre, index) => {
                 return (
-                  <NavLink
-                    key={index}
-                    to={`/${genre.id}`}
-                    className="category"
-                  >
+                  <NavLink key={index} to={`/${genre.id}`} className="category">
                     {genre.name}
                   </NavLink>
                 );
@@ -96,30 +98,36 @@ const MainPage = () => {
           </div>
         </Col>
 
-        <Col className="main-view" sm="8" md="9" lg="10">
+        <Col className="main-view" xs="7" sm="8" md="9" lg="10">
           <Row>
             <Col sm="12" className="header">
-              <div className="avatar-container">
-                <span className="notification">
-                  <SearchOutlined />
-                </span>
-                <span className="notification">
-                  <BellFilled />
-                </span>
-                <UserOutlined className="avatar" />
-              </div>
+              <Row className="avatar-container">
+                <Col xs="4" sm="2">
+                  <span className="notification">
+                    <SearchOutlined />
+                  </span>
+                </Col>
+                <Col xs="4" sm="2">
+                  <span className="notification">
+                    <BellFilled />
+                  </span>
+                </Col>
+                <Col xs="4" sm="3">
+                  <UserOutlined className="avatar" />
+                </Col>
 
-              <div className="avatar-text">
-                <span>Cobynnha Terra</span>
-                <span>Manage Account</span>
-              </div>
+                <Col xs="12" sm="5" className="avatar-text ">
+                  <span>Cobynnha Terra</span>
+                  <span>Manage Account</span>
+                </Col>
+              </Row>
             </Col>
           </Row>
           <Row className="content">
             <Col className="content-head" sm="12">
               <h2>Recommended for you</h2>
             </Col>
-            {!data && <h2 style={{marginLeft: '0.8rem'}}>Loading ... </h2>}
+            {!data && <h2 style={{ marginLeft: "0.8rem" }}>Loading ... </h2>}
             {data &&
               data.map((movie, index) => {
                 let genreList = pickGenre(movie.genre_ids);
@@ -139,14 +147,19 @@ const MainPage = () => {
                       doc.style.display = "none";
                     }}
                     className="item"
-                    sm="4"
+                    xs="12"
+                    sm="5"
                     md="3"
                     lg="2"
                   >
                     <Link
                       to={{
                         pathname: "/details",
-                        state: { details: movie, genre: genreList, allGenres: genres }
+                        state: {
+                          details: movie,
+                          genre: genreList,
+                          allGenres: genres
+                        }
                       }}
                     >
                       <div className="item-content">

@@ -76,7 +76,6 @@
 }
 
 .avatar-container {
-  margin: 0.5rem !important;
   display: inline-block;
 }
 
@@ -146,7 +145,6 @@
   background-color: var(--sideBg);
   height: 24rem !important;
   padding: 0.4rem !important;
-  overflow-y: visible;
   box-shadow: 0.1rem 0.1rem 0.3rem var(--sideBg);
 }
 
@@ -180,4 +178,71 @@
 
 a:hover {
   text-decoration: none !important;
+}
+
+/* Responsiveness handlers */
+@media screen and (max-width: 430px) {
+  .item {
+    height: 20rem;
+  }
+  .item-content:hover {
+    height: 20rem !important;
+  }
+}
+
+@media screen and (min-width: 430px) and (max-width: 576px) {
+  .item {
+    height: 30rem;
+  }
+  .item-content {
+    height: 28rem !important;
+  }
+  .item-content:hover {
+    height: 30rem !important;
+  }
+}
+
+@media screen and (min-width: 576px) and (max-width: 768px) {
+  .item {
+    height: 22.5rem;
+  }
+  .item-content {
+    height: 22.5rem !important;
+  }
+  .item-content:hover {
+    height: 22.5rem !important;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .item {
+    height: 22rem;
+  }
+  .item-content {
+    height: 22rem !important;
+  }
+  .item-content:hover {
+    height: 22rem !important;
+  }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1200px) {
+  .item {
+    height: 21rem;
+  }
+  .item-content {
+    height: 21rem !important;
+  }
+  .item-content:hover {
+    height: 21rem !important;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .avatar-container {
+    margin: 0.5rem 3.8rem !important;
+  }
+  .avatar-text {
+    padding: 0rem !important;
+    margin-top: -0.4rem;
+  }
 }

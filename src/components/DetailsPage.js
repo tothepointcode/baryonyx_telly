@@ -30,13 +30,25 @@ const DetailsPage = () => {
     vote_average,
     overview,
     release_date,
-original_language
+    original_language
   } = location.state.details;
 
-  const {genre} = location.state
+  const { genre } = location.state;
+
+  const listGenre = () => {
+    const len = genre.length;
+    let list = "";
+    genre.forEach((item, index) => {
+      if (index < len-1) {
+        list += `${item}, `;
+      } else {
+        list += `${item}`;
+      }
+    });
+    return list;
+  };
 
   useEffect(() => {
-    console.log(location.state.title);
     // async function fetchData(url) {
     //   axios
     //     .get(`${url}`)
@@ -70,6 +82,19 @@ original_language
     // } else {
     // }
   });
+
+  const renderStars = () => {
+    let stars = Math.round((vote_average / 10) * 5);
+    let string = [];
+    for (let i = 1; i <= 5; i++) {
+      if (i <= stars) {
+        string.push(<StarFilled className=" star" />);
+        continue;
+      }
+      string.push(<StarFilled className=" star star-empty" />);
+    }
+    return string;
+  };
 
   return (
     <Container fluid className="main-page">
@@ -116,16 +141,12 @@ original_language
                 <HeartFilled className="mt-1" style={{ color: "tomato" }} />
               </h2>
               <p>
-                <StarFilled className="star" />
-                <StarFilled className="star-empty"/>
-                <StarFilled />
-                <StarFilled />
-                <StarFilled />
+                {renderStars()}
                 <span className="rating">{vote_average}</span>
               </p>
               <Row className="sub-section">
                 <Col sm="8">
-                  <p>Type: {genre}</p>
+                  <p>Type: {listGenre()}</p>
                   <p>Release Date: {release_date}</p>
                   <p>Original Language: {original_language}</p>
                 </Col>

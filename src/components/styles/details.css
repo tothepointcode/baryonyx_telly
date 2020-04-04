@@ -8,6 +8,7 @@
 .details-view {
   background-color: var(--light);
   min-height: 100vh;
+  border: 0rem;
 }
 
 .details-side {
@@ -53,30 +54,26 @@
 
 .image-view {
   background-color: var(--light);
+  border: 0rem;
 }
 
 .image-container {
-  background-color: coral;
   padding: 2.5rem!important;
   padding-right: 3rem!important;
 }
 
 .image {
-  height: 14rem!important;
   width: 100%!important;
-  background-color: tomato;
-  box-shadow: 0 3rem 5rem 0rem;
+  box-shadow: 0rem 3rem 5rem 0rem;
 }
 
 .description-container {
-  background-color: yellowgreen;
   padding: 2.5rem!important;
 }
 
 .description-title {
 font-size: 2.8rem;
 width: 100%!important;
-background-color: blue;
 display: flex;
 justify-content: space-between;
 
@@ -85,6 +82,11 @@ justify-content: space-between;
 .star {
   padding-right: 0.3rem!important;
   vertical-align: middle;
+  color: var(--color3);
+}
+
+.star-empty {
+  color: var(--light3)
 }
 
 .rating {
@@ -105,7 +107,6 @@ justify-content: space-between;
 }
 
 .recommendation-container {
-  background-color: purple;
   padding: 2.5rem!important;
 
 }

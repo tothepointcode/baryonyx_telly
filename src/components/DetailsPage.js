@@ -188,7 +188,7 @@ const DetailsPage = () => {
                       }}
                     >
                       <Row className="recommendation-item">
-                        <Col sm="5">
+                        <Col sm="5" className="recommendation-image">
                           <img
                             className="item-image"
                             src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}

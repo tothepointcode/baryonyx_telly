@@ -121,8 +121,9 @@
 .content-head {
   color: var(--light);
   text-align: left;
-  padding-left: 0.25rem !important;
+  padding-left: 0.4rem !important;
   margin-bottom: 0.6rem !important;
+  margin-left: 0.5rem;
 }
 
 .content-head h2 {

@@ -64,7 +64,7 @@
 
 .image {
   width: 100%!important;
-  box-shadow: 0rem 3rem 5rem 0rem;
+  box-shadow: 0rem 3rem 1rem 0rem var(--light3);
 }
 
 .description-container {
@@ -107,12 +107,20 @@ justify-content: space-between;
 }
 
 .recommendation-container {
-  padding: 2.5rem!important;
-
+  padding: 1rem 2.5rem!important;
 }
 
 .recommendation-item {
-  margin-bottom: 2rem;
+  margin-bottom: 0.4rem;
+  padding: 1rem;
+}
+
+.recommendation-image {
+  padding: 1rem;
+}
+
+.recommendation-image img{
+  box-shadow: 0rem 1rem 0.5rem 0rem var(--light3);
 }
 
 .recommendation-item p, .recommendation-item h4{

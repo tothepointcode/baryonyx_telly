@@ -39,10 +39,16 @@ const MainPage = () => {
 
   useEffect(() => {
     fetchGenres();
+
+    if (parseInt(category) > 0) {
+      setData(null);
+      return fetchData(`https://api.themoviedb.org/3/discover/movie?api_key=c0fa6bc64ad08cbe344d1ce681a62d69&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${category}`);
+    }
+
     fetchData(
       "https://api.themoviedb.org/3/movie/popular?api_key=c0fa6bc64ad08cbe344d1ce681a62d69&language=en-US&page=1"
     );
-  }, []);
+  }, [category]);
 
   const pickGenre = genre_ids => {
     let genre;
@@ -57,9 +63,10 @@ const MainPage = () => {
     return genreList;
   };
 
-  if (category === undefined) {
+  if (category === undefined || (!parseInt(category) > 0 && category !== "discover" && category !== "details")) {
     return <Redirect to="/discover" />;
   }
+  
 
   return (
     <Container fluid className="main-page">
@@ -79,7 +86,7 @@ const MainPage = () => {
                 return (
                   <NavLink
                     key={index}
-                    to={`/discover/:${genre.id}`}
+                    to={`/${genre.id}`}
                     className="category"
                   >
                     {genre.name}
@@ -112,7 +119,7 @@ const MainPage = () => {
             <Col className="content-head" sm="12">
               <h2>Recommended for you</h2>
             </Col>
-            {!data && <h2>Loading ... </h2>}
+            {!data && <h2 style={{marginLeft: '0.8rem'}}>Loading ... </h2>}
             {data &&
               data.map((movie, index) => {
                 let genreList = pickGenre(movie.genre_ids);

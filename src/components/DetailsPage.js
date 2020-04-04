@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+// UI
 import { Container, Row, Col, Button } from "reactstrap";
-
-import { Link, useParams, useHistory, useLocation } from "react-router-dom";
-
 import {
   ArrowLeftOutlined,
   StarFilled,
@@ -11,20 +9,22 @@ import {
   PlusOutlined
 } from "@ant-design/icons";
 
+//React router
+import { Link, useLocation } from "react-router-dom";
+
+// API
 import axios from "axios";
 
+// Custom styles
 import "./styles/details.css";
 
 const DetailsPage = () => {
-  // const { id } = useParams();
   const location = useLocation();
   const [data, setData] = useState();
 
   const {
     poster_path,
     id,
-    backdrop_path,
-    genre_ids,
     title,
     vote_average,
     overview,
@@ -76,7 +76,7 @@ const DetailsPage = () => {
     );
   }, []);
 
-  const renderStars = (vote_average) => {
+  const renderStars = vote_average => {
     let stars = Math.round((vote_average / 10) * 5);
     let string = [];
     for (let i = 1; i <= 5; i++) {
@@ -199,7 +199,7 @@ const DetailsPage = () => {
                           <h4>{movie.title}</h4>
                           <p>
                             {renderStars(movie.vote_average)}
-                            <br/>
+                            <br />
                             <span className="other">
                               {movie.original_language}
                             </span>

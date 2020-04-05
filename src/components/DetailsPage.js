@@ -81,10 +81,10 @@ const DetailsPage = () => {
     let string = [];
     for (let i = 1; i <= 5; i++) {
       if (i <= stars) {
-        string.push(<StarFilled className=" star" />);
+        string.push(<StarFilled key={i} className=" star" />);
         continue;
       }
-      string.push(<StarFilled className=" star star-empty" />);
+      string.push(<StarFilled key={Math.random()} className=" star star-empty" />);
     }
     return string;
   };
@@ -92,8 +92,7 @@ const DetailsPage = () => {
   return (
     <Container fluid className="main-page">
       <Row>
-        <Col className="image-view" sm="3">
-          <Row>
+        <Col className="image-view" sm="4" md="3">
             <Col className="details-header">
               <Link className="back" to="/">
                 <span>
@@ -115,10 +114,9 @@ const DetailsPage = () => {
                 />
               </div>
             </Col>
-          </Row>
         </Col>
 
-        <Col className="details-view" sm="6">
+        <Col className="details-view" sm="8" md="6">
           <Row>
             <Col sm="12" className="details-header">
               <div className="details-nav">
@@ -166,7 +164,7 @@ const DetailsPage = () => {
           </Row>
         </Col>
 
-        <Col className="details-side" sm="3">
+        <Col className="details-side" sm="12" md="3">
           <Row>
             <Col sm="12" className="details-header recommendation-header">
               <h2>Movie Recommendation</h2>
@@ -178,6 +176,7 @@ const DetailsPage = () => {
                   let genreList = pickGenre(movie.genre_ids);
                   return (
                     <Link
+                      key={index}
                       to={{
                         pathname: "/details",
                         state: {

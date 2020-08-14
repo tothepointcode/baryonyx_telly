@@ -77,6 +77,8 @@
 
 .avatar-container {
   display: inline-block;
+  justify-content: space-around;
+  display: flex;
 }
 
 .avatar-container .notification {

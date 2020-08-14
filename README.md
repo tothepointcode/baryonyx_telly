@@ -12,6 +12,9 @@ A clone of Telly Movie Listing UI based  on a dribbble interface. The interface 
 
 ![Created Screens](/assets/details.png)
 
+## View Application
+
+Find the hosted application screens [here](https://goofy-montalcini-76e1e8.netlify.app/).
 ## Acknowledgements
 
 - [TMDB](https://www.themoviedb.org/documentation/api) - API for movie details

@@ -72,7 +72,7 @@ const DetailsPage = () => {
 
   useEffect(() => {
     fetchData(
-      `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=c0fa6bc64ad08cbe344d1ce681a62d69&language=en-US&page=1`
+      `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
     );
   }, []);
 

@@ -74,7 +74,7 @@ const DetailsPage = () => {
     fetchData(
       `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
     );
-  }, []);
+  }, [id]);
 
   const renderStars = vote_average => {
     let stars = Math.round((vote_average / 10) * 5);
